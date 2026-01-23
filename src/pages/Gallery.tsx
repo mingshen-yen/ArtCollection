@@ -38,15 +38,14 @@ export default function Gallery() {
 
   return (
     <>
-      {toast && (
-        <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">{toast}</div>
-      )}
-      <div className="px-10 md:px-10 py-2 max-w-7xl mx-auto">
-        <Link to="/" className="flex gap-1 pb-2 text-slate-200 text-sm items-center">
-          <MoveLeft className="w-4" />
-          <p className="cursor-pointer hover:underline">Go back</p>
-        </Link>
-        <h1>Personal Gallery</h1>
+      {toast && <div className="toast">{toast}</div>}
+      <div className="pt-8 px-10 md:px-10 py-2 max-w-7xl mx-auto">
+        <div className="flex flex-row items-center justify-between pr-6">
+          <h1>Personal Gallery</h1>
+          <Link className="text-white underline" to={"/"}>
+            Back
+          </Link>
+        </div>
         {/* Card */}
         {collection.length === 0 ? (
           <div className="text-center py-10">
@@ -59,7 +58,7 @@ export default function Gallery() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-3 p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mt-3 p-5">
             {collection.map((a) => (
               <CollectedCard key={a.id} art={a} onSaveNote={handleSaveNote} onDelete={handleDelete} />
             ))}

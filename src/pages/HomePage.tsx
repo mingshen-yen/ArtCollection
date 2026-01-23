@@ -23,14 +23,17 @@ export default function HomePage() {
     const getArts = async () => {
       try {
         const res = await fetch("https://api.artic.edu/api/v1/artworks");
-        if (!res.ok) throw new Error("Something went wrong!");
+        if (!res.ok) return;
         const resData = await res.json();
         const result = ArtworkArraySchema.safeParse(resData);
+
         if (!result.success) {
           console.error(result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`));
           return;
         }
-        setArts(result.data.data.filter((a) => a.image_id !== null));
+
+        const cleaned = result.data.data.filter((a) => a.image_id != null);
+        setArts(cleaned);
       } catch (error) {
         console.log(error);
       }
@@ -100,16 +103,14 @@ export default function HomePage() {
 
   return (
     <>
-      {toast && (
-        <div className="fixed top-5 left-4 text-sm text-black bg-white px-4 py-3 rounded-xl shadow-lg">{toast}</div>
-      )}
+      {toast && <div className="toast">{toast}</div>}
       <div className="px-4 max-w-7xl mx-auto">
         <Search onSearch={(q) => doSearch(q)} />
       </div>
       {searchDetails.length > 0 && (
         <div className="px-10 md:px-10 py-4 max-w-7xl mx-auto">
           <h1>Search Results</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-3 p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mt-3 p-5">
             {searchDetails.map((a) => (
               <ArtworkCard key={a.id} art={a} onAdd={handleAddToCollection} />
             ))}
@@ -118,7 +119,7 @@ export default function HomePage() {
       )}
       <div className="px-10 md:px-10 py-4 max-w-7xl mx-auto">
         <h1>Artworks</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-3 p-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mt-3 p-5">
           {arts.map((a) => (
             <ArtworkCard key={a.id} art={a} onAdd={handleAddToCollection} />
           ))}

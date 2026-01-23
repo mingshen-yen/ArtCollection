@@ -3,7 +3,7 @@ import { z } from "zod/v4";
 export const ArtworkSchema = z.object({
   id: z.number(),
   title: z.string(),
-  image_id: z.string(),
+  image_id: z.string().nullable(),
   date_display: z.string(),
   artist_display: z.string(),
 });

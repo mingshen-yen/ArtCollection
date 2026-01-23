@@ -16,7 +16,7 @@ export default function Search({ onSearch }: { onSearch: (q: string) => void }) 
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex justify-end p-4">
+      <form onSubmit={handleSubmit} className="flex justify-center p-4">
         <div className="input border flex flex-row gap-1 items-center px-1.5 py-1 rounded-xl">
           <svg className="h-[1.3em] opacity-50 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor">

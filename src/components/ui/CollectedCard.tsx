@@ -29,46 +29,36 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
   };
   return (
     <>
-      {toast && (
-        <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">{toast}</div>
-      )}
-      <div className="card bg-slate-50 shadow-sm rounded-xl p-4 gap-5">
-        <div className="card-body flex flex-col gap-2">
-          <img
-            className="w-fit rounded-t-xl"
-            src={`https://www.artic.edu/iiif/2/${art.image_id}/full/400,/0/default.jpg`}
-            alt={art.title}
-          />
-          <div className="px-2 pt-2">
-            <h2 className="font-bold text-xl">{art.title}</h2>
-            <p className="text-sm text-gray-500 ">{art.artist_display}</p>
-            <p className="text-sm text-gray-500 ">{art.date_display}</p>
-          </div>
-          <div className="px-2">
-            <textarea
-              className="w-full mt-2 p-2 rounded border border-slate-200 bg-white text-sm"
-              rows={3}
-              placeholder="Write a short note..."
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-            />
+      {toast && <div className="toast">{toast}</div>}
 
-            {errors.length > 0 && (
-              <ul className="mt-2 text-sm text-red-600 list-disc pl-5">
-                {errors.map((msg, i) => (
-                  <li key={`${msg}-${i}`}>{msg}</li>
-                ))}
-              </ul>
-            )}
+      <div className="card bg-slate-100 shadow-sm gap-5 rounded-sm">
+        <div className="card-body flex flex-col gap-1">
+          <div className="aspect-[4/5] w-full overflow-hidden">
+            <img
+              className="h-full w-full object-cover rounded-sm"
+              src={`https://www.artic.edu/iiif/2/${art.image_id}/full/400,/0/default.jpg`}
+              alt={art.title}
+            />
           </div>
-          <div className="px-2 flex justify-end gap-2">
-            <button onClick={handleSave} className="bg-slate-200 text-sm hover:font-semibold py-2 px-3 rounded-xl">
+          <div className="p-2 flex flex-col">
+            <h2 className="line-clamp-2 font-bold text-sm h-10">{art.title}</h2>
+            <p className="p-1 line-clamp-2 text-xs text-gray-500 h-10">{art.artist_display}</p>
+            <p className="p-1 text-xs text-gray-500">{art.date_display}</p>
+            <div className="flex justify-end">
+              <textarea
+                className="w-full py-1 px-2 rounded border border-slate-200 bg-white text-sm"
+                rows={2}
+                placeholder="Write a short note..."
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="pb-2 px-2 flex justify-end gap-1">
+            <button onClick={handleSave} className="btn">
               Save note
             </button>
-            <button
-              onClick={() => onDelete(art)}
-              className="bg-slate-200 text-sm hover:font-semibold py-2 px-3 rounded-xl"
-            >
+            <button onClick={() => onDelete(art)} className="btn">
               Delete
             </button>
           </div>
