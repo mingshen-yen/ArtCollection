@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Plus, MoveLeft } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Art, SavedArt } from "../types";
 import CollectedCard from "../components/ui/CollectedCard";
