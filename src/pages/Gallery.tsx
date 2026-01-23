@@ -32,7 +32,7 @@ export default function Gallery() {
 
   const handleDelete = (art: Art) => {
     setCollection((prev) => prev.filter((a) => a.id !== art.id));
-    setToast("💡 Removed from your gallery!");
+    setToast("💡 Removed from Gallery!");
     setTimeout(() => setToast(null), 2000);
   };
 
@@ -42,10 +42,9 @@ export default function Gallery() {
         <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">{toast}</div>
       )}
       <div className="px-10 md:px-10 py-4 max-w-7xl mx-auto">
-        <Link to="/">
-          <button className="flex gap-1 py-5 cursor-pointer text-base items-center">
-            <MoveLeft className="w-4" /> Go back
-          </button>
+        <Link to="/" className="flex gap-1 py-5 text-slate-200 text-base items-center">
+          <MoveLeft className="w-4" />
+          <p className="cursor-pointer hover:underline">Go back</p>
         </Link>
         {/* Card */}
         {collection.length === 0 ? (
@@ -59,7 +58,7 @@ export default function Gallery() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-3 p-5">
             {collection.map((a) => (
               <CollectedCard key={a.id} art={a} onSaveNote={handleUpdateNote} onDelete={handleDelete} />
             ))}

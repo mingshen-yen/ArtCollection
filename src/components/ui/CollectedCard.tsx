@@ -34,9 +34,6 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
       )}
       <div className="card bg-orange-50 shadow-sm rounded-xl p-4 gap-5">
         <div className="card-body flex flex-col gap-2">
-          {/* <div>
-            <Heart className="absolute right-5 bg-red-600" />
-          </div> */}
           <img
             className="w-fit rounded-t-xl"
             src={`https://www.artic.edu/iiif/2/${art.image_id}/full/400,/0/default.jpg`}

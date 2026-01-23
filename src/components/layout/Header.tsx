@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 export default function Header() {
   return (
-    <div className="bg-white shadow-md">
+    <div className="bg-slate-300 shadow-md p-1">
       <div className="flex items-center justify-between px-4 md:px-8 py-4 max-w-7xl mx-auto">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -12,8 +12,8 @@ export default function Header() {
           </Link>
         </div>
         <div>
-          <Link to={"/gallery"}>
-            <button className="bg-orange-100 hover:font-semibold py-2 px-3 rounded-xl">Gallery</button>
+          <Link to={"/gallery"} className="hover:underline hover:font-semibold">
+            Gallery
           </Link>
         </div>
       </div>

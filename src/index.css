@@ -7,4 +7,9 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  background-color: rgb(31, 41, 69);
+}
+
+Button {
+  @apply bg-slate-300 text-black py-1 px-2 rounded-sm;
 }

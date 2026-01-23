@@ -9,7 +9,6 @@ export const ArtworkSchema = z.object({
 });
 
 export const ArtworkArraySchema = z.object({
-  pagination: z.object(),
   data: z.array(ArtworkSchema),
 });
 
@@ -20,3 +19,14 @@ export const ArtworkWrapperSchema = z.object({
 export type Art = z.infer<typeof ArtworkSchema>;
 
 export type SavedArt = Art & { note?: string };
+
+export const SearchHitSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+});
+
+export const SearchResponseSchema = z.object({
+  data: z.array(SearchHitSchema),
+});
+
+export type SearchArt = z.infer<typeof SearchHitSchema>;
