@@ -69,7 +69,7 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
               onClick={() => onDelete(art)}
               className="bg-orange-200 text-sm hover:font-semibold py-2 px-3 rounded-xl"
             >
-              Delet
+              Delete
             </button>
           </div>
         </div>

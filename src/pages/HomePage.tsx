@@ -45,10 +45,10 @@ export default function HomePage() {
   const handleAddToCollection = (art: Art) => {
     setCollection((prev) => {
       if (prev.some((a) => a.id === art.id)) {
-        setToast("Already in your collection!");
+        setToast("💡 Already in your collection!");
         return prev;
       }
-      setToast("Added to your collection!");
+      setToast("✅ Added to your collection!");
       return [...prev, art];
     });
 
@@ -86,7 +86,9 @@ export default function HomePage() {
           ))}
         </div>
         {toast && (
-          <div className="fixed top-4 right-4 text-sm text-blue-600  bg-white px-4 py-2 rounded-xl shadow">{toast}</div>
+          <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">
+            {toast}
+          </div>
         )}
       </div>
     </>

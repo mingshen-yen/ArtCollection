@@ -5,6 +5,8 @@ import type { Art, SavedArt } from "../types";
 import CollectedCard from "../components/ui/CollectedCard";
 
 export default function Gallery() {
+  const [toast, setToast] = useState<string | null>(null);
+
   const [collection, setCollection] = useState<SavedArt[]>(() => {
     const saved = localStorage.getItem("collection");
     if (!saved) return [];
@@ -25,12 +27,14 @@ export default function Gallery() {
     setCollection((prev) =>
       prev.map((a) => (a.id === id ? { ...a, note: trimmed.length === 0 ? undefined : trimmed } : a)),
     );
+    setToast("💡 Your note successfully added!");
 
     return { ok: true as const };
   };
 
   const handleDelete = (art: Art) => {
     setCollection((prev) => prev.filter((a) => a.id !== art.id));
+    setToast("💡 It's removed from your collection!");
   };
 
   return (
@@ -57,6 +61,11 @@ export default function Gallery() {
             {collection.map((a) => (
               <CollectedCard key={a.id} art={a} onSaveNote={handleUpdateNote} onDelete={handleDelete} />
             ))}
+          </div>
+        )}
+        {toast && (
+          <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">
+            {toast}
           </div>
         )}
       </div>
