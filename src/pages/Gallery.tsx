@@ -27,7 +27,7 @@ export default function Gallery() {
     setCollection((prev) =>
       prev.map((a) => (a.id === id ? { ...a, note: trimmed.length === 0 ? undefined : trimmed } : a)),
     );
-    setToast("💡 Your note successfully added!");
+    setToast("💡 Your note successfully saved!");
 
     return { ok: true as const };
   };
