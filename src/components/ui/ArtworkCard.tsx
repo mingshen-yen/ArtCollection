@@ -3,7 +3,7 @@ import type { Art } from "../../types";
 export default function ArtworkCard({ art, onAdd }: { art: Art; onAdd: (art: Art) => void }) {
   return (
     <>
-      <div className="card bg-orange-50 shadow-sm rounded-xl p-4 gap-5">
+      <div className="card bg-slate-50 shadow-sm rounded-xl p-4 gap-5">
         <div className="card-body flex flex-col gap-2">
           <img
             className="w-fit rounded-t-xl"
@@ -18,7 +18,7 @@ export default function ArtworkCard({ art, onAdd }: { art: Art; onAdd: (art: Art
           <div className="flex justify-end">
             <button
               onClick={() => onAdd(art)}
-              className="bg-orange-200 text-sm hover:font-semibold py-2 px-3 rounded-xl"
+              className="bg-slate-200 text-sm hover:font-semibold py-2 px-3 rounded-xl"
             >
               Add to Gallery
             </button>

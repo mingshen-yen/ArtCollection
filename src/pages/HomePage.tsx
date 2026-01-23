@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
-import { type Art, type SearchArt, ArtworkArraySchema, SearchResponseSchema } from "../types";
+import { type Art, ArtworkArraySchema, SearchResponseSchema } from "../types";
 import ArtworkCard from "../components/ui/ArtworkCard";
 import Search from "../components/layout/Search";
 
 export default function HomePage() {
   const [arts, setArts] = useState<Art[]>([]);
   const [toast, setToast] = useState<string | null>(null);
-  const [url, setUrl] = useState<string>("");
-  const [artUrl, setArtUrl] = useState<string>("");
-
-  const [searchResults, setSearchResults] = useState<SearchArt[]>([]);
-
+  const [searchUrl, setSearchUrl] = useState<string>("");
+  const [searchDetails, setSearchDetails] = useState<Art[]>([]);
   const [collection, setCollection] = useState<Art[]>(() => {
     const saved = localStorage.getItem("collection");
     if (!saved) return [];
@@ -21,10 +18,11 @@ export default function HomePage() {
     }
   });
 
+  // initial artworks
   useEffect(() => {
     const getArts = async () => {
       try {
-        const res = await fetch("https://api.artic.edu/api/v1/artworks?page=1&limit=10");
+        const res = await fetch("https://api.artic.edu/api/v1/artworks");
         if (!res.ok) throw new Error("Something went wrong!");
         const resData = await res.json();
         const result = ArtworkArraySchema.safeParse(resData);
@@ -32,7 +30,6 @@ export default function HomePage() {
           console.error(result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`));
           return;
         }
-
         setArts(result.data.data.filter((a) => a.image_id !== null));
       } catch (error) {
         console.log(error);
@@ -58,10 +55,12 @@ export default function HomePage() {
     window.setTimeout(() => setToast(null), 2000);
   };
 
+  // search: get ids + titles (search hits)
   useEffect(() => {
+    if (!searchUrl) return;
     const searchArts = async () => {
       try {
-        const res = await fetch(url);
+        const res = await fetch(searchUrl);
         if (!res.ok) throw new Error("Something went wrong!");
         const resData = await res.json();
         const result = SearchResponseSchema.safeParse(resData);
@@ -69,17 +68,34 @@ export default function HomePage() {
           console.error(result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`));
           return;
         }
-        setSearchResults(result.data.data);
+        // get search results details
+        const ids = result.data.data.map((x) => x.id);
+        if (ids.length === 0) {
+          setSearchDetails([]);
+          return;
+        }
+        // fetch details in ONE call
+        const fields = ["id", "title", "image_id", "artist_display", "date_display"].join(",");
+        const detailsUrl = `https://api.artic.edu/api/v1/artworks?ids=${ids.join(",")}&fields=${fields}`;
+        const detailsRes = await fetch(detailsUrl);
+        if (!detailsRes.ok) throw new Error("Failed to fetch artwork details");
+        const detailsJson = await detailsRes.json();
+        const detailsParsed = ArtworkArraySchema.safeParse(detailsJson);
+        if (!detailsParsed.success) {
+          console.error(detailsParsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`));
+          return;
+        }
+        setSearchDetails(detailsParsed.data.data.filter((a) => a.image_id != null));
       } catch (error) {
         console.log(error);
       }
     };
     searchArts();
-  }, [url]);
+  }, [searchUrl]);
 
   const doSearch = (q: string) => {
     const encoded = encodeURIComponent(q);
-    setUrl(`https://api.artic.edu/api/v1/artworks/search?q=${encoded}&query[term][is_public_domain]=true`);
+    setSearchUrl(`https://api.artic.edu/api/v1/artworks/search?q=${encoded}&query[term][is_public_domain]=true`);
   };
 
   return (
@@ -87,12 +103,21 @@ export default function HomePage() {
       {toast && (
         <div className="fixed top-5 left-4 text-sm text-black bg-white px-4 py-3 rounded-xl shadow-lg">{toast}</div>
       )}
-      <Search onSearch={(q) => doSearch(q)} searchResults={searchResults} />
-      {searchResults &&
-        searchResults.map((a) => {
-          return <div key={a.id}>{a.title}</div>;
-        })}
+      <div className="px-4 max-w-7xl mx-auto">
+        <Search onSearch={(q) => doSearch(q)} />
+      </div>
+      {searchDetails.length > 0 && (
+        <div className="px-10 md:px-10 py-4 max-w-7xl mx-auto">
+          <h1>Search Results</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-3 p-5">
+            {searchDetails.map((a) => (
+              <ArtworkCard key={a.id} art={a} onAdd={handleAddToCollection} />
+            ))}
+          </div>
+        </div>
+      )}
       <div className="px-10 md:px-10 py-4 max-w-7xl mx-auto">
+        <h1>Artworks</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-3 p-5">
           {arts.map((a) => (
             <ArtworkCard key={a.id} art={a} onAdd={handleAddToCollection} />

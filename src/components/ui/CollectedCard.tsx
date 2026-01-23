@@ -32,7 +32,7 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
       {toast && (
         <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">{toast}</div>
       )}
-      <div className="card bg-orange-50 shadow-sm rounded-xl p-4 gap-5">
+      <div className="card bg-slate-50 shadow-sm rounded-xl p-4 gap-5">
         <div className="card-body flex flex-col gap-2">
           <img
             className="w-fit rounded-t-xl"
@@ -46,7 +46,7 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
           </div>
           <div className="px-2">
             <textarea
-              className="w-full mt-2 p-2 rounded border border-orange-200 bg-white text-sm"
+              className="w-full mt-2 p-2 rounded border border-slate-200 bg-white text-sm"
               rows={3}
               placeholder="Write a short note..."
               value={note}
@@ -61,13 +61,13 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
               </ul>
             )}
           </div>
-          <div className="flex justify-end gap-2">
-            <button onClick={handleSave} className="bg-orange-200 text-sm hover:font-semibold py-2 px-3 rounded-xl">
+          <div className="px-2 flex justify-end gap-2">
+            <button onClick={handleSave} className="bg-slate-200 text-sm hover:font-semibold py-2 px-3 rounded-xl">
               Save note
             </button>
             <button
               onClick={() => onDelete(art)}
-              className="bg-orange-200 text-sm hover:font-semibold py-2 px-3 rounded-xl"
+              className="bg-slate-200 text-sm hover:font-semibold py-2 px-3 rounded-xl"
             >
               Delete
             </button>

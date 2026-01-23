@@ -8,12 +8,12 @@ export const ArtworkSchema = z.object({
   artist_display: z.string(),
 });
 
-export const ArtworkArraySchema = z.object({
-  data: z.array(ArtworkSchema),
+export const ArtworkDetail = z.object({
+  data: ArtworkSchema,
 });
 
-export const ArtworkWrapperSchema = z.object({
-  data: z.array(z.unknown()),
+export const ArtworkArraySchema = z.object({
+  data: z.array(ArtworkSchema),
 });
 
 export type Art = z.infer<typeof ArtworkSchema>;
