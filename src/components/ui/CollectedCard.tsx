@@ -10,6 +10,7 @@ type Props = {
 export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
   const [note, setNote] = useState(art.note ?? "");
   const [errors, setErrors] = useState<string[]>([]);
+  const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
     setNote(art.note ?? "");
@@ -19,17 +20,19 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
     const result = onSaveNote(art.id, note);
     if (result.ok) {
       setErrors([]);
+      setToast("✅ Your note successfully saved!");
     } else {
       setErrors(result.errors);
     }
+    if (note.length === 0) setToast("⚠️ Your note is empty!");
+    setTimeout(() => setToast(null), 2000);
   };
   return (
     <>
-      <div
-        className="card bg-orange-50 shadow-sm rounded-xl p-4 gap-5 cursor-pointer
-            transition-all duration-300 ease-out
-            hover:scale-[1.02] hover:shadow-lg"
-      >
+      {toast && (
+        <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">{toast}</div>
+      )}
+      <div className="card bg-orange-50 shadow-sm rounded-xl p-4 gap-5">
         <div className="card-body flex flex-col gap-2">
           {/* <div>
             <Heart className="absolute right-5 bg-red-600" />
@@ -46,7 +49,7 @@ export default function CollectedCard({ art, onSaveNote, onDelete }: Props) {
           </div>
           <div className="px-2">
             <textarea
-              className="w-full mt-2 p-2 rounded-xl border border-orange-200 bg-white text-sm"
+              className="w-full mt-2 p-2 rounded border border-orange-200 bg-white text-sm"
               rows={3}
               placeholder="Write a short note..."
               value={note}

@@ -27,18 +27,20 @@ export default function Gallery() {
     setCollection((prev) =>
       prev.map((a) => (a.id === id ? { ...a, note: trimmed.length === 0 ? undefined : trimmed } : a)),
     );
-    setToast("💡 Your note successfully saved!");
-
     return { ok: true as const };
   };
 
   const handleDelete = (art: Art) => {
     setCollection((prev) => prev.filter((a) => a.id !== art.id));
-    setToast("💡 It's removed from your collection!");
+    setToast("💡 Removed from your gallery!");
+    setTimeout(() => setToast(null), 2000);
   };
 
   return (
     <>
+      {toast && (
+        <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">{toast}</div>
+      )}
       <div className="px-10 md:px-10 py-4 max-w-7xl mx-auto">
         <Link to="/">
           <button className="flex gap-1 py-5 cursor-pointer text-base items-center">
@@ -61,11 +63,6 @@ export default function Gallery() {
             {collection.map((a) => (
               <CollectedCard key={a.id} art={a} onSaveNote={handleUpdateNote} onDelete={handleDelete} />
             ))}
-          </div>
-        )}
-        {toast && (
-          <div className="fixed top-4 left-4 text-sm text-black bg-gray-100 px-4 py-3 rounded-xl shadow-2xl">
-            {toast}
           </div>
         )}
       </div>
