@@ -1,4 +1,4 @@
-# Art Collection
+# Art Collection (Project 7)
 
 A React + TypeScript + Vite app for browsing and managing an art collection. Built with client-side routing, schema validation, and a modern utility-first UI stack.
 
